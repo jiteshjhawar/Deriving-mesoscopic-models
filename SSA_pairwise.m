@@ -13,7 +13,7 @@ s = 1/250; %spontaneous reaction rate
 C(1:2) = s;
 C(3:4) = r;
 T = 0;
-steps = 10000000;
+steps = 10000000;	%number of simulation steps
 Tint = 1/(N^0.5*s);
 Tend = steps*Tint;
 rel = 1;    %number of repetitions
@@ -31,7 +31,7 @@ for iter = 1:rel
     Tprint = 0.01;
     % Stochastic Simulation begins
     while (T < Tend)
-        %Reactions
+        %Reaction propensities
         A(1) = C(1)*X2/N;  %1
         A(2) = C(2)*X1/N;  %2
         A(3) = C(3)*X1*X2/(N^2);   %3
@@ -51,12 +51,12 @@ for iter = 1:rel
             S(n,iter) = S1(n,iter) - S2(n,iter);
             tSample(n,iter) = Tprint;
             Tprint = Tprint + Tint;
-            
         end
         R(2) = rand(1,1);
         R2A0 = R(2)*A0;
         Sum = 0;
         nu = 1;
+        %selecting next reaction that will occur
         while Sum <= R2A0 %&& nu <= 24
             mu = nu;
             Sum = Sum + A(nu);
